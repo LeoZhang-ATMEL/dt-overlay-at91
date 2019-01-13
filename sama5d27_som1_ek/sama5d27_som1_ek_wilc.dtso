@@ -12,6 +12,7 @@
 
 #include "sama5d2-pinfunc.h"
 #include "dt-bindings/pinctrl/at91.h"
+#include <dt-bindings/gpio/gpio.h>
 
 &sdmmc0 {
         bus-width = <4>;

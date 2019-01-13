@@ -1,0 +1,52 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * sama5d27_som1_ek_pda4.dtso - Device Tree file for SAMA5D27 SOM1 EK board
+ * overlay blob for PDA4300 LCD.
+ *
+ * Copyright (C) 2018 Microchip Technology, Inc.
+ * Author: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
+ *
+ */
+/dts-v1/;
+/plugin/;
+
+#include "sama5d2-pinfunc.h"
+#include "dt-bindings/pinctrl/at91.h"
+
+&sdmmc0 {
+        bus-width = <4>;
+        pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_sdmmc0_clk_cmd_data0_4>;
+        status = "okay";
+        wilc_sdio@0{
+                compatible = "microchip,wilc1000", "microchip,wilc3000", "atmel,wilc_sdio";
+                gpio_reset = <&pioA PIN_PA7 GPIO_ACTIVE_LOW>;
+                gpio_chip_en = <&pioA PIN_PA6 GPIO_ACTIVE_LOW>;
+                gpio_irq = <&pioA PIN_PA8 GPIO_ACTIVE_LOW>;
+                status = "okay";
+        };
+};
+
+&pioA {
+        pinctrl_sdmmc0_clk_cmd_data0_4: sdmmc0_clk_cmd_data0_4 {
+                cmd_data {
+                        pinmux = <PIN_PA1__SDMMC0_CMD>,
+                                 <PIN_PA2__SDMMC0_DAT0>,
+                                 <PIN_PA3__SDMMC0_DAT1>,
+                                 <PIN_PA4__SDMMC0_DAT2>,
+                                 <PIN_PA5__SDMMC0_DAT3>;
+                        bias-disable;
+                 };
+                 ck_cd_vddsel {
+                         pinmux = <PIN_PA0__SDMMC0_CK>,
+                                  <PIN_PA11__SDMMC0_VDDSEL>,
+                                  <PIN_PA13__SDMMC0_CD>;
+                          bias-disable;
+                 };
+        };
+};
+
+&{/} {
+        model = "Atmel SAMA5D27 SOM1 EK WILC";
+        compatible = "atmel,sama5d27-som1-ek", "atmel,sama5d27-som1", "atmel,sama5d27", "atmel,sama5d2", "atmel,sama5"; 
+};
